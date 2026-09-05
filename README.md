@@ -1,4 +1,64 @@
-# REVIVE AI
+# Revora AI – Real‑Time Transaction Risk & Recovery Dashboard
+
+**Revora AI** is an end‑to‑end demo application that showcases how an autonomous AI‑driven workflow can detect, prioritize, and recover failed payment transactions in real time. The system ingests a stream of synthetic (or live) transactions, runs a risk‑assessment model, and presents actionable recovery metrics on an interactive dashboard.
+
+---
+
+## Key Features
+- **Live risk scoring** – shows Revenue At Risk, total failures, and potential incremental recovery.
+- **Simulation mode** – inject a manual transaction and instantly re‑run the AI batch to see the impact.
+- **Agentic decision flow** – AI diagnoses failure root‑cause, predicts recovery value, and selects the optimal intervention while respecting strict policy guardrails.
+- **Audit trail** – every simulation run writes a row to a `metrics` table, providing a full history of KPIs and decisions.
+- **Cache‑buster implementation** – all frontend API calls include a timestamp query parameter, guaranteeing fresh data on each reload.
+
+---
+
+## Architecture Overview
+- **Backend**: FastAPI (Python) + SQLite. Modules are organized into Simulator, Policy Engine, Recovery Engine, and Agent Workflow.
+- **Frontend**: React + Vite, styled with TailwindCSS and visualised via Recharts. All data is fetched through Axios with cache‑busting query strings.
+- **Data**: 10 000 synthetic transactions generated on startup; can be swapped for real webhook payloads in production.
+
+---
+
+## Getting Started
+1. **Clone the repo** and install dependencies.
+   ```bash
+   git clone <repo‑url>
+   cd revora-ai
+   # Backend
+   cd backend && python -m venv .venv && .\.venv\Scripts\activate && pip install -r requirements.txt
+   # Frontend
+   cd ../frontend && npm install
+   ```
+2. **Run the services** (two terminals):
+   - Backend: `python -m uvicorn main:app --port 8000 --reload`
+   - Frontend: `npm run dev`
+3. Open `http://localhost:5173` in a browser.
+4. Click **"Run AI Recovery"** to start the batch simulation. Use **"Inject Transaction"** to add a custom record and observe the metrics update instantly.
+
+---
+
+## Demo Flow
+1. Dashboard loads with empty KPIs.
+2. Press **Run AI Recovery** – the agent processes 10 000 failed transactions.
+3. KPI cards update to show total failures, revenue at risk, and incremental recovery.
+4. Click any transaction in the audit log to view the AI’s reasoning and any policy‑blocked actions.
+5. Use **Inject Transaction** to add a test case; the dashboard refreshes with the new totals.
+
+---
+
+## Contributing
+Feel free to open issues or submit pull requests. Follow the standard GitHub workflow:
+1. Fork the repo.
+2. Create a feature branch.
+3. Ensure `npm run lint` and `pytest` (backend) pass.
+4. Open a PR describing the change.
+
+---
+
+## License
+This project is licensed under the MIT License.
+
 **Autonomous Revenue Recovery & Payment Intelligence Agent**
 
 ## The Problem
